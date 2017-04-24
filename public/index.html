@@ -16,11 +16,39 @@
           <img class = "newappIcon" src="images/newapp-icon.png">
         </td>
         <td>
-          <h1 id="message">Hello LBRANDS!</h1>
+          <h1 id="message">Hello LBRANDS123!</h1>
           <p class='description'></p> Thanks for creating a <span class = "blue">NodeJS Starter Application</span>.
         </td>
       </tr>
     </table>
+    
+    <section>
+		<table id='notes' class='records' border='0' cellspacing='0' cellpadding='0'><tbody></tbody></table>
+	</section>
+    
+    <footer>
+		<div>
+			<!-- <button class='detailBtn' onclick="toggleServiceInfo()" title='Service information'>
+				<img src='images/detail.png' alt='detail'/>
+			-->
+			<button class="addBtn" onclick="addItem()" title="add record">
+				<img src="images/add.png" alt="add">
+			</button>
+			<br>
+			<a class = "infoImg" onclick="toggleAppInfo()">Help</a>
+		</div>
+		<div id='appinfo' class = 'appinfo' style='display: none;'>
+			Click on <span class = 'deleteBtn' alt='delete'></span> icon to delete the category.
+		</div>
+		<div id="loadingImage"></div>
+		<br><br><br><br><br>
+		<div id="errorDiv" class='errorMsg'></div>
+	</footer>
+	
+    <script type="text/javascript" src="scripts/util.js"></script>
+	<script type="text/javascript" src="scripts/index.js"></script>
+	<div id="myImage"><div id="innerImg"></div></div>
+	<br><br><br>
   </body>
 
 </html>
