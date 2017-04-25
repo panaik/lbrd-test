@@ -241,7 +241,7 @@ tr:hover .deleteBtn {
 	background-color: rgba(0,0,0,0.2);
 }
 
-.vRows pre { xoutline: 1px solid #ccc; padding: 1rem; xmargin: 5px; white-space: pre-wrap;font-size: 1.5rem;}
+.vRows pre { outline: 1px solid #ccc; padding: 10px; xmargin: 5px; white-space: pre-wrap;xfont-size: 1.5rem;}
 .vRows .string { color: green; }
 .vRows .number { color: darkorange; }
 .vRows .boolean { color: blue; }

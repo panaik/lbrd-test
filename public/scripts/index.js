@@ -164,6 +164,7 @@ function queryVisual(attachment,element){
 	console.log('queryVisual',attachment);
 	console.log('element',element);
 	elem = element;
+	element.parentElement.nextSibling.innerHTML = "";
 	
 	var data = {
     	imageurl : elem.src
@@ -172,8 +173,10 @@ function queryVisual(attachment,element){
     xhrVisualClassify(REST_DATA + "/classify", data, function(item) {
     	console.log('visual classify callback');
 		console.log('item',item);
+		prettyPrintJSON(element.parentElement.nextSibling, item, false);
     }, function(err) {
         console.error(err);
+        prettyPrintJSON(element.parentElement.nextSibling, err, false);
     });
 	//elem.parentElement.nextSibling -> json-cell
 	//prettyPrintJSON(elem, data, wantPre) -> on json-cell

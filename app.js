@@ -462,25 +462,33 @@ app.get('/api/favorites', function(request, response) {
 });
 
 app.post('/api/favorites/classify', function(request, response) {
-	var params = {
-		url: request.body.imageurl,
-		images_file: null
-	};
-	console.log('visual params',params);
 	
-	visualRecognition.classify(params, function(err, res) {
-	  if (err) {
-	  	console.log(err);
-	  	response.write(err);
+	if (!visualRecognition) {
+		response.write({'error':'Watson Visual Recognition Service not connected'});
         response.end();
-	  }
-	  else {
-	  	console.log(JSON.stringify(res, null, 2));
-	  	response.write(JSON.stringify(res, null, 2));
-        response.end();
-	  }
-	    
-	});
+	}
+	else {
+		var params = {
+			url: request.body.imageurl,
+			images_file: null
+		};
+		console.log('visual params',params);
+		
+		visualRecognition.classify(params, function(err, res) {
+		  if (err) {
+		  	console.log(err);
+		  	response.write(err);
+	        response.end();
+		  }
+		  else {
+		  	console.log(JSON.stringify(res, null, 2));
+		  	response.write(JSON.stringify(res, null, 2));
+	        response.end();
+		  }
+		    
+		});
+	}
+	
 	
 });
 
