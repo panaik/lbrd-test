@@ -106,6 +106,7 @@ function uploadFile(node) {
 }
 
 var attachButton = "<br><div class='uploadBox'><input type=\"file\" name=\"file\" id=\"upload_file\"><input width=\"100\" type=\"submit\" value=\"Upload\" onClick='uploadFile(this)'></div>";
+var docImages = [];
 
 function setRowContent(item, row) {
     var innerHTML = "<td class='contentName'><textarea id='nameText' class = 'nameText' onkeydown='onKey(event)'>" + item.name + "</textarea></td><td class='contentDetails'>";
@@ -126,6 +127,9 @@ function setRowContent(item, row) {
 
             if (attachment.content_type.indexOf("image/") == 0) {
                 innerHTML += "<div class='contentTiles'>" + attachment.key + "<br><img height=\"150\" src=\"" + encodeUriAndQuotes(attachment.url) + "\" onclick='window.open(\"" + encodeUriAndQuotes(attachment.url) + "\")'></img></div>";
+                
+                docImages.push(attachment);
+                addVisualRow(attachment);
 
             } else if (attachment.content_type.indexOf("audio/") == 0) {
                 innerHTML += "<div class='contentTiles'>" + attachment.key + "<br><AUDIO  height=\"50\" src=\"" + encodeUriAndQuotes(attachment.url) + "\" controls></AUDIO></div>";
@@ -144,6 +148,35 @@ function setRowContent(item, row) {
 
     row.innerHTML = innerHTML + attachButton + "</td><td class = 'contentAction'><span class='deleteBtn' onclick='deleteItem(this)' title='delete me'></span></td>";
 
+}
+
+function addVisualRow(attachment){
+	console.log('addVisualRow', attachment);
+ 	var tBody = document.querySelector('#visual tbody');
+    var vRow = addNewRow(tBody);
+    vRow.className = "vRows";
+    var cellHTML = "<td>" + "<img height=\"150\" src=\"" + encodeUriAndQuotes(attachment.url) + "\" onclick='queryVisual(\"" + encodeUriAndQuotes(attachment.url) + "\",this)'></img>" + "</td><td class='json-cell'></td>";               
+    vRow.innerHTML += cellHTML;
+}
+
+var elem = undefined;
+function queryVisual(attachment,element){
+	console.log('queryVisual',attachment);
+	console.log('element',element);
+	elem = element;
+	
+	var data = {
+    	imageurl : elem.src
+    };
+    console.log('visual classify data',data);
+    xhrVisualClassify(REST_DATA + "/classify", data, function(item) {
+    	console.log('visual classify callback');
+		console.log('item',item);
+    }, function(err) {
+        console.error(err);
+    });
+	//elem.parentElement.nextSibling -> json-cell
+	//prettyPrintJSON(elem, data, wantPre) -> on json-cell
 }
 
 function addItem(item, isNew) {
@@ -286,6 +319,41 @@ function stopLoadingMessage() {
     document.getElementById('loadingImage').innerHTML = "";
 }
 
-//showLoadingMessage();
+function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+
+//Pass true as final parameter if want to keep last JSON data
+function prettyPrintJSON(elem, data, wantPre)
+{
+	//console.log("Function :: prettyPrintJSON");
+	var strJSON = JSON.stringify(data, undefined, 4);
+	var str = syntaxHighlight(strJSON);
+	var preTag = document.createElement('pre');
+	preTag.innerHTML = str;
+	
+	var wantPre = wantPre || false;
+	if (!wantPre)
+		elem.innerHTML = "";
+	
+	elem.appendChild(preTag);
+}
+
+showLoadingMessage();
 //updateServiceInfo();
-//loadItems();
+loadItems();

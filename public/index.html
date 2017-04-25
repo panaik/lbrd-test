@@ -13,7 +13,7 @@
     <table>
       <tr>
         <td style= "width:30%;">
-          <img class = "newappIcon" src="images/newapp-icon.png">
+          <img class="newappIcon" src="images/newapp-icon.png">
         </td>
         <td>
           <h1 id="message">Hello LBRANDS123!</h1>
@@ -26,7 +26,7 @@
 		<table id='notes' class='records' border='0' cellspacing='0' cellpadding='0'><tbody></tbody></table>
 	</section>
     
-    <footer>
+    <div class="footer">
 		<div>
 			<!-- <button class='detailBtn' onclick="toggleServiceInfo()" title='Service information'>
 				<img src='images/detail.png' alt='detail'/>
@@ -41,10 +41,18 @@
 			Click on <span class = 'deleteBtn' alt='delete'></span> icon to delete the category.
 		</div>
 		<div id="loadingImage"></div>
-		<br><br><br><br><br>
+		<br>
 		<div id="errorDiv" class='errorMsg'></div>
-	</footer>
-	
+		<br>
+	</div>
+	<section>
+		<table id='visual' class='visual' border='0' cellspacing='0' cellpadding='0'>
+			<tbody>
+				<tr><th>Image sent</th><th>JSON Result</th></tr>
+			</tbody>
+		</table>
+	</section>
+
     <script type="text/javascript" src="scripts/util.js"></script>
 	<script type="text/javascript" src="scripts/index.js"></script>
 	<div id="myImage"><div id="innerImg"></div></div>
